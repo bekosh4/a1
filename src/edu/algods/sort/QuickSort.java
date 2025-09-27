@@ -6,7 +6,7 @@ import edu.algods.util.ArrayUtils;
 public class QuickSort {
 
     public static void sort(int[] a) {
-        ArrayUtils.shuffle(a); // randomized pivot
+        ArrayUtils.shuffle(a);             // randomized pivot
         sortRange(a, 0, a.length - 1, 1);
     }
 
@@ -16,8 +16,8 @@ public class QuickSort {
             int p = partition(a, lo, hi);
             int left = p - lo, right = hi - p;
             if (left < right) {
-                if (lo < p - 1) sortRange(a, lo, p - 1, depth + 1); // recurse smaller
-                lo = p + 1; // iterate larger
+                if (lo < p - 1) sortRange(a, lo, p - 1, depth + 1); // recurse on smaller
+                lo = p + 1;                                         // iterate larger
             } else {
                 if (p + 1 < hi) sortRange(a, p + 1, hi, depth + 1);
                 hi = p - 1;
@@ -27,12 +27,15 @@ public class QuickSort {
 
     private static int cmp(int x, int y) { Metrics.current().compare(); return Integer.compare(x, y); }
 
+    // FIX: сравниваем ОДИН раз; если условие выполнилось — делаем swap и сразу i++
     private static int partition(int[] a, int lo, int hi) {
         int pivot = a[hi];
         int i = lo;
         for (int j = lo; j < hi; j++) {
-            if (cmp(a[j], pivot) <= 0) { ArrayUtils.swap(a, i, j); }
-            if (cmp(a[j], pivot) <= 0) i++;
+            if (cmp(a[j], pivot) <= 0) {
+                ArrayUtils.swap(a, i, j);
+                i++;
+            }
         }
         ArrayUtils.swap(a, i, hi);
         return i;
